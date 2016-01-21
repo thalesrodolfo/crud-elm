@@ -1,0 +1,60 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp$Simple = Elm.StartApp.Simple.make(_elm);
+   var _op = {};
+   var trowItem = F2(function (nome,valor) {
+      return A2($Html.tr,
+      _U.list([]),
+      _U.list([A2($Html.td,_U.list([]),_U.list([$Html.text(nome)])),A2($Html.td,_U.list([]),_U.list([$Html.text($Basics.toString(valor))]))]));
+   });
+   var tableBody = function (lista) {    return A2($Html.tbody,_U.list([]),A2($List.map,function (x) {    return A2(trowItem,x.nome,x.valor);},lista));};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      if (_p0.ctor === "Adicionar") {
+            var novoMaterial = _U.list([{nome: "novoMaterial",valor: 0.0}]);
+            return A2($List.append,model,novoMaterial);
+         } else {
+            return model;
+         }
+   });
+   var Remover = {ctor: "Remover"};
+   var Adicionar = {ctor: "Adicionar"};
+   var view = F2(function (address,listaMateriais) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Html.table,
+              _U.list([]),
+              _U.list([A2($Html.thead,
+              _U.list([]),
+              _U.list([A2($Html.tr,
+                      _U.list([]),
+                      _U.list([A2($Html.th,_U.list([]),_U.list([$Html.text("Material")])),A2($Html.th,_U.list([]),_U.list([$Html.text("Valor")]))]))
+                      ,tableBody(listaMateriais)]))]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Adicionar)]),_U.list([$Html.text("Adicionar")]))]));
+   });
+   var init = _U.list([{nome: "Telha",valor: 1.3},{nome: "Porcelana",valor: 3.9}]);
+   var main = $StartApp$Simple.start({model: init,view: view,update: update});
+   var Material = F2(function (a,b) {    return {nome: a,valor: b};});
+   return _elm.Main.values = {_op: _op
+                             ,Material: Material
+                             ,init: init
+                             ,Adicionar: Adicionar
+                             ,Remover: Remover
+                             ,update: update
+                             ,trowItem: trowItem
+                             ,tableBody: tableBody
+                             ,view: view
+                             ,main: main};
+};
